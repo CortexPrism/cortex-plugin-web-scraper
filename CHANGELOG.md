@@ -1,0 +1,25 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.0.0] — 2026-06-15
+
+### Added
+- Initial release of cortex-plugin-web-scraper
+- `scrape_url` tool — Scrape single URLs with text/markdown/HTML output, CSS selector support, and metadata extraction
+- `scrape_crawl` tool — Multi-page crawling with depth/domain controls and BFS-based link following
+- `scrape_search` tool — Web search via Tavily and Firecrawl APIs with fallback warnings
+- `scrape_extract_schema` tool — Structured data extraction using JSON schema with meta tags, JSON-LD, itemprop, and heading heuristics
+- `scrape_monitor` tool — Content change detection via hash-based baseline comparison
+- `scrape_export` tool — Export scraped datasets to JSON, CSV, or Markdown table format
+- Module-level configuration via `onLoad` hook with closure pattern
+- UI settings for API keys (Firecrawl, Tavily) and general scraping options
+- Basic HTML-to-Markdown converter for cleaner agent consumption
+- CSS selector-based content extraction with tag/class/id matching
+- Table and list extraction from HTML
+- `requestDelayMs` between crawl requests with configurable user agent
+- Comprehensive README with tool reference, examples, and troubleshooting
+- Unit test suite covering all 6 tools

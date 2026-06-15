@@ -1,0 +1,40 @@
+{
+  "name": "cortex-plugin-web-scraper",
+  "version": "1.0.0",
+  "description": "Web scraping and data extraction plugin for CortexPrism — crawl sites, extract structured data, monitor pages, and build datasets",
+  "type": "module",
+  "main": "mod.ts",
+  "scripts": {
+    "dev": "node --watch mod.ts",
+    "test": "node --test test/**/*.test.js",
+    "fmt": "prettier --write .",
+    "fmt:check": "prettier --check .",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "cortex",
+    "plugin",
+    "cortex-plugin",
+    "esm",
+    "web-scraping",
+    "data-extraction",
+    "crawler"
+  ],
+  "author": "CortexPrism",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CortexPrism/cortex-plugin-web-scraper.git"
+  },
+  "dependencies": {
+    "@cortexprism/plugin-sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
