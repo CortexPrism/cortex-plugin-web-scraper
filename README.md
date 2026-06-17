@@ -1,6 +1,7 @@
 # cortex-plugin-web-scraper
 
-Firecrawl/Tavily/Apify-based structured web scraping plugin for CortexPrism. Agents can crawl sites, extract structured data (JSON), monitor pages for changes, and build datasets.
+Firecrawl/Tavily/Apify-based structured web scraping plugin for CortexPrism. Agents can crawl sites,
+extract structured data (JSON), monitor pages for changes, and build datasets.
 
 ## Installation
 
@@ -19,12 +20,13 @@ cortex plugin install ./manifest.json
 
 This plugin supports external search and scraping APIs. Configure in plugin settings:
 
-| API | Key Setting | Get Key At |
-|-----|-------------|------------|
+| API       | Key Setting                | Get Key At            |
+| --------- | -------------------------- | --------------------- |
 | Firecrawl | `firecrawlApiKey` (secret) | https://firecrawl.dev |
-| Tavily | `tavilyApiKey` (secret) | https://tavily.com |
+| Tavily    | `tavilyApiKey` (secret)    | https://tavily.com    |
 
-Without API keys, all tools still work using basic HTTP fetching. Search tools with API keys configured will use the respective service's API for enhanced results.
+Without API keys, all tools still work using basic HTTP fetching. Search tools with API keys
+configured will use the respective service's API for enhanced results.
 
 ### Configuring via CLI
 
@@ -35,7 +37,8 @@ cortex plugin config set cortex-plugin-web-scraper tavilyApiKey "tvly-xxxxx"
 
 ### Configuring via UI
 
-Open Cortex settings, navigate to the cortex-plugin-web-scraper section, and fill in the API Keys and General settings fields.
+Open Cortex settings, navigate to the cortex-plugin-web-scraper section, and fill in the API Keys
+and General settings fields.
 
 ## Quick Start
 
@@ -49,13 +52,13 @@ cortex chat --plugin cortex-plugin-web-scraper
 
 ## Configuration
 
-| Setting | Type | Default | Description |
-|---------|------|---------|-------------|
-| `firecrawlApiKey` | secret | — | Firecrawl API key |
-| `tavilyApiKey` | secret | — | Tavily API key |
-| `defaultMaxPages` | number | 10 | Default max pages for crawl operations |
-| `userAgent` | text | `CortexPrism-WebScraper/1.0.0` | User-Agent header for requests |
-| `requestDelayMs` | number | 1000 | Delay between requests (ms) |
+| Setting           | Type   | Default                        | Description                            |
+| ----------------- | ------ | ------------------------------ | -------------------------------------- |
+| `firecrawlApiKey` | secret | —                              | Firecrawl API key                      |
+| `tavilyApiKey`    | secret | —                              | Tavily API key                         |
+| `defaultMaxPages` | number | 10                             | Default max pages for crawl operations |
+| `userAgent`       | text   | `CortexPrism-WebScraper/1.0.0` | User-Agent header for requests         |
+| `requestDelayMs`  | number | 1000                           | Delay between requests (ms)            |
 
 ## Tools
 
@@ -64,22 +67,27 @@ cortex chat --plugin cortex-plugin-web-scraper
 Scrape a single URL and extract content.
 
 **Parameters:**
+
 - `url` (string, required) — The URL to scrape (HTTP or HTTPS)
-- `format` (string, optional, default: `"text"`) — Output format: `"text"`, `"markdown"`, or `"html"`
+- `format` (string, optional, default: `"text"`) — Output format: `"text"`, `"markdown"`, or
+  `"html"`
 - `selector` (string, optional) — CSS selector to extract specific content
 - `include_metadata` (boolean, optional, default: `true`) — Include page metadata
 
 **Example:**
+
 ```bash
 cortex tool call scrape_url --url https://example.com --format markdown
 ```
 
 **Example with selector:**
+
 ```bash
 cortex tool call scrape_url --url https://example.com --selector ".main-content"
 ```
 
-**Response includes:** URL, format, content, metadata (title, description, OG tags, headings), extracted tables, and lists.
+**Response includes:** URL, format, content, metadata (title, description, OG tags, headings),
+extracted tables, and lists.
 
 ---
 
@@ -88,6 +96,7 @@ cortex tool call scrape_url --url https://example.com --selector ".main-content"
 Crawl a website starting from a URL, following links up to a configurable depth and page limit.
 
 **Parameters:**
+
 - `start_url` (string, required) — Starting URL for the crawl
 - `max_pages` (number, optional, default: `10`) — Maximum pages to crawl
 - `max_depth` (number, optional, default: `2`) — Maximum crawl depth
@@ -95,6 +104,7 @@ Crawl a website starting from a URL, following links up to a configurable depth 
 - `selector` (string, optional) — CSS selector to extract from each page
 
 **Example:**
+
 ```bash
 cortex tool call scrape_crawl --start_url https://docs.example.com --max_pages 20 --max_depth 3
 ```
@@ -108,16 +118,20 @@ cortex tool call scrape_crawl --start_url https://docs.example.com --max_pages 2
 Search the web and extract structured results.
 
 **Parameters:**
+
 - `query` (string, required) — Search query
 - `max_results` (number, optional, default: `10`) — Max results to return
-- `engine` (string, optional, default: `"tavily"`) — Search engine: `"tavily"`, `"firecrawl"`, or `"google"`
+- `engine` (string, optional, default: `"tavily"`) — Search engine: `"tavily"`, `"firecrawl"`, or
+  `"google"`
 
 **Example:**
+
 ```bash
 cortex tool call scrape_search --query "latest AI research papers 2026" --engine tavily --max_results 5
 ```
 
-**Note:** Requires an API key configured for the chosen engine. Without an API key, a warning is returned.
+**Note:** Requires an API key configured for the chosen engine. Without an API key, a warning is
+returned.
 
 ---
 
@@ -126,11 +140,13 @@ cortex tool call scrape_search --query "latest AI research papers 2026" --engine
 Extract structured data from a URL following a JSON schema.
 
 **Parameters:**
+
 - `url` (string, required) — URL to extract from
 - `schema` (string, required) — JSON schema string defining the extraction structure
 - `multiple` (boolean, optional, default: `false`) — Extract multiple matching items
 
 **Example:**
+
 ```bash
 cortex tool call scrape_extract_schema \
   --url https://example.com/products \
@@ -139,6 +155,7 @@ cortex tool call scrape_extract_schema \
 ```
 
 **Extraction strategies (tried in order):**
+
 1. `<meta>` tags matching schema keys
 2. `og:` meta tags
 3. `itemprop` attributes
@@ -152,16 +169,19 @@ cortex tool call scrape_extract_schema \
 Monitor a URL for changes by recording a content hash baseline.
 
 **Parameters:**
+
 - `url` (string, required) — URL to monitor
 - `interval_hours` (number, optional, default: `24`) — Suggested check interval
 - `selector` (string, optional) — Monitor only a specific part of the page
 
 **Example:**
+
 ```bash
 cortex tool call scrape_monitor --url https://example.com/status --selector ".status-banner"
 ```
 
-**Response includes:** Changed flag, previous/current content hashes, last check timestamps, and a human-readable note.
+**Response includes:** Changed flag, previous/current content hashes, last check timestamps, and a
+human-readable note.
 
 ---
 
@@ -170,15 +190,18 @@ cortex tool call scrape_monitor --url https://example.com/status --selector ".st
 Export scraped data to a format.
 
 **Parameters:**
+
 - `format` (string, optional, default: `"json"`) — `"json"`, `"csv"`, or `"markdown"`
 - `data` (string, required) — JSON array string of scraped items
 
 **Example:**
+
 ```bash
 cortex tool call scrape_export --format csv --data '[{"name":"Item 1","price":"$10"},{"name":"Item 2","price":"$20"}]'
 ```
 
 **Output formats:**
+
 - **json** — Pretty-printed JSON array
 - **csv** — RFC 4180-compatible CSV with headers
 - **markdown** — GitHub-flavored markdown table
@@ -188,6 +211,7 @@ cortex tool call scrape_export --format csv --data '[{"name":"Item 1","price":"$
 ## Capabilities
 
 This plugin declares:
+
 - `tools` — Core plugin capability
 - `network:fetch` — Makes HTTP/HTTPS requests to scrape web pages and call APIs
 
@@ -231,6 +255,7 @@ deno task validate
 ## Best Practices
 
 **Do:**
+
 - Validate all tool parameters before use
 - Handle errors gracefully with try-catch
 - Return `ToolCallResult` with `success`, `output`/`error`, and `durationMs`
@@ -238,6 +263,7 @@ deno task validate
 - Use `AbortSignal.timeout` for all HTTP requests
 
 **Don't:**
+
 - Hardcode API keys or secrets (use plugin config)
 - Request overly broad permissions
 - Ignore errors or timeouts

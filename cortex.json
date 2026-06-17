@@ -1,6 +1,6 @@
 {
   "name": "cortex-plugin-web-scraper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Firecrawl/Tavily/Apify-based structured web scraping. Agent can crawl sites, extract structured data (JSON), monitor pages for changes, and build datasets.",
   "kind": "esm",
   "entryPoint": "mod.ts",
