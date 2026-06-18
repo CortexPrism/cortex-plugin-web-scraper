@@ -1,6 +1,6 @@
 {
   "name": "cortex-plugin-web-scraper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Firecrawl/Tavily/Apify-based structured web scraping. Agent can crawl sites, extract structured data (JSON), monitor pages for changes, and build datasets.",
   "kind": "esm",
   "entryPoint": "mod.ts",
@@ -8,7 +8,7 @@
   "author": "CortexPrism",
   "license": "MIT",
   "repository": "https://github.com/CortexPrism/cortex-plugin-web-scraper",
-  "homepage": "",
+  "homepage": "https://github.com/CortexPrism/cortex-plugin-web-scraper",
   "capabilities": [
     "tools",
     "network:fetch"
@@ -29,8 +29,12 @@
           "type": "string",
           "description": "Output format for the scraped content",
           "required": false,
-          "enum": ["text", "markdown", "html"],
-          "defaultValue": "text"
+          "enum": [
+            "text",
+            "markdown",
+            "html"
+          ],
+          "default": "text"
         },
         {
           "name": "selector",
@@ -43,7 +47,7 @@
           "type": "boolean",
           "description": "Whether to include page metadata (title, description, og tags, links) in the response",
           "required": false,
-          "defaultValue": true
+          "default": true
         }
       ]
     },
@@ -62,21 +66,21 @@
           "type": "number",
           "description": "Maximum number of pages to crawl (default: 10)",
           "required": false,
-          "defaultValue": 10
+          "default": 10
         },
         {
           "name": "max_depth",
           "type": "number",
           "description": "Maximum crawl depth from the start URL (default: 2)",
           "required": false,
-          "defaultValue": 2
+          "default": 2
         },
         {
           "name": "same_domain",
           "type": "boolean",
           "description": "Only follow links on the same domain as the start URL (default: true)",
           "required": false,
-          "defaultValue": true
+          "default": true
         },
         {
           "name": "selector",
@@ -101,15 +105,19 @@
           "type": "number",
           "description": "Maximum number of results to return (default: 10)",
           "required": false,
-          "defaultValue": 10
+          "default": 10
         },
         {
           "name": "engine",
           "type": "string",
           "description": "Search engine to use",
           "required": false,
-          "enum": ["tavily", "firecrawl", "google"],
-          "defaultValue": "tavily"
+          "enum": [
+            "tavily",
+            "firecrawl",
+            "google"
+          ],
+          "default": "tavily"
         }
       ]
     },
@@ -134,7 +142,7 @@
           "type": "boolean",
           "description": "Whether to extract multiple matching items (e.g., list of products) or a single item",
           "required": false,
-          "defaultValue": false
+          "default": false
         }
       ]
     },
@@ -153,7 +161,7 @@
           "type": "number",
           "description": "How often to check for changes in hours (default: 24)",
           "required": false,
-          "defaultValue": 24
+          "default": 24
         },
         {
           "name": "selector",
@@ -172,8 +180,12 @@
           "type": "string",
           "description": "Export format for the data",
           "required": false,
-          "enum": ["json", "csv", "markdown"],
-          "defaultValue": "json"
+          "enum": [
+            "json",
+            "csv",
+            "markdown"
+          ],
+          "default": "json"
         },
         {
           "name": "data",
@@ -184,6 +196,7 @@
       ]
     }
   ],
+  "dependencies": {},
   "peerDependencies": {
     "cortex": ">=1.0.0"
   },
@@ -213,22 +226,22 @@
             "key": "defaultMaxPages",
             "label": "Default Max Pages",
             "type": "number",
-            "defaultValue": 10,
-            "description": "Default maximum pages when crawling (global override)"
+            "description": "Default maximum pages when crawling (global override)",
+            "default": 10
           },
           {
             "key": "userAgent",
             "label": "User Agent",
             "type": "text",
-            "defaultValue": "CortexPrism-WebScraper/1.0.0",
-            "description": "User-Agent header sent with all HTTP requests"
+            "description": "User-Agent header sent with all HTTP requests",
+            "default": "CortexPrism-WebScraper/1.0.0"
           },
           {
             "key": "requestDelayMs",
             "label": "Request Delay (ms)",
             "type": "number",
-            "defaultValue": 1000,
-            "description": "Delay between requests to avoid rate limiting"
+            "description": "Delay between requests to avoid rate limiting",
+            "default": 1000
           }
         ]
       }
@@ -236,7 +249,7 @@
   },
   "aiDisclosure": {
     "tools": [
-      "Claude Code (Anthropic) — scaffold and implementation"
+      "Claude Code (Anthropic) \u2014 scaffold and implementation"
     ],
     "humanReview": true
   }
