@@ -1,4 +1,4 @@
-// deno-lint-ignore-file require-await
+// deno-lint-ignore-file require-await, no-unused-vars
 import {
   assert,
   assertEquals,
