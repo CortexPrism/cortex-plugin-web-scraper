@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 /**
  * CortexPrism Web Scraping & Data Extraction Plugin
  *
