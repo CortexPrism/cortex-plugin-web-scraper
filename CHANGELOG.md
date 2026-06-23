@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.1.0] — 2026-06-22
+
+### Added
+
+- **Multi-backend support:** Apify, Bright Data, Oxylabs, Jina AI, Brave Search, and Exa API key
+  configuration in plugin settings
+- **`scrape_status` tool** — Check health, rate limits, and quota for all 8 configured backends
+  with live API reachability tests and recommended backend output
+- **`screenshot` format** in `scrape_url` tool (requires Firecrawl or Apify with browser rendering)
+- **`timeout_seconds` parameter** in `scrape_url` for configurable HTTP timeouts
+- **`backend` parameter** in `scrape_url`, `scrape_crawl`, and `scrape_extract_schema` tools for
+  explicit backend selection with `auto` as default
+- **`path_pattern` parameter** in `scrape_crawl` for URL path regex filtering during crawls
+- **Brave Search and Exa** search engines in `scrape_search` with real API integration
+- **`scrape_results` parameter** in `scrape_search` to optionally scrape full page content
+  for each search result
+- **`backend_used`** field in all tool responses for transparency
+
+### Merged
+
+- Combined with `cortex-plugin-web-scraping` (#110) — the multi-backend orchestrator concept and
+  backend coverage have been folded into this plugin as the single canonical web scraping solution
+
+### Changed
+
+- Updated `userAgent` default to `CortexPrism-WebScraper/1.1.0`
+- Updated module header comment to reflect merged provenance
 
 ## [1.0.3] — 2026-06-22
 

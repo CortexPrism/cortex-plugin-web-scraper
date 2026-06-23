@@ -274,14 +274,15 @@ Deno.test('scrape_export - exports Markdown format', async () => {
 
 // Tools array exported
 
-Deno.test('tools array exported with all 6 tools', () => {
-  assertEquals(tools.length, 6);
+Deno.test('tools array exported with all 7 tools', () => {
+  assertEquals(tools.length, 7);
   const names = tools.map((t) => t.definition.name);
   assertEquals(names, [
     'scrape_url',
     'scrape_crawl',
     'scrape_search',
     'scrape_extract_schema',
+    'scrape_status',
     'scrape_monitor',
     'scrape_export',
   ]);

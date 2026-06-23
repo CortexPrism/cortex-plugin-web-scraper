@@ -1,14 +1,14 @@
 {
   "name": "cortex-plugin-web-scraper",
-  "version": "1.0.3",
-  "description": "Firecrawl/Tavily/Apify-based structured web scraping. Agent can crawl sites, extract structured data (JSON), monitor pages for changes, and build datasets.",
+  "version": "1.1.0",
+  "description": "Multi-backend web scraping & data extraction — scrape URLs, crawl sites, search the web, extract structured data with schema, monitor pages for changes, and export results. Supports Firecrawl, Tavily, Apify, Bright Data, Oxylabs, Jina AI, Brave, and Exa with automatic failover.",
   "kind": "esm",
   "entryPoint": "mod.ts",
   "runtime": "deno",
   "author": "CortexPrism",
   "license": "MIT",
   "repository": "https://github.com/CortexPrism/cortex-plugin-web-scraper",
-  "homepage": "https://github.com/CortexPrism/cortex-plugin-web-scraper",
+  "homepage": "https://cortexprism.io/marketplace/plugins/web-scraper",
   "capabilities": [
     "tools",
     "network:fetch"
@@ -16,7 +16,7 @@
   "tools": [
     {
       "name": "scrape_url",
-      "description": "Scrape a single URL and extract content in text, markdown, or HTML format. Optionally filter by CSS selector and include page metadata.",
+      "description": "Scrape a single URL with automatic backend selection and failover. Returns clean structured content in text, markdown, HTML, or screenshot format.",
       "params": [
         {
           "name": "url",
@@ -32,7 +32,8 @@
           "enum": [
             "text",
             "markdown",
-            "html"
+            "html",
+            "screenshot"
           ],
           "defaultValue": "text"
         },
@@ -48,12 +49,32 @@
           "description": "Whether to include page metadata (title, description, og tags, links) in the response",
           "required": false,
           "defaultValue": true
+        },
+        {
+          "name": "backend",
+          "type": "string",
+          "description": "Preferred scraping backend (auto-detected from available API keys if omitted)",
+          "required": false,
+          "enum": [
+            "auto",
+            "firecrawl",
+            "apify",
+            "brightdata",
+            "oxylabs",
+            "jina"
+          ]
+        },
+        {
+          "name": "timeout_seconds",
+          "type": "number",
+          "description": "Timeout in seconds (default: 30)",
+          "required": false
         }
       ]
     },
     {
       "name": "scrape_crawl",
-      "description": "Crawl a website starting from a URL, following links up to a configurable depth and page limit. Only follows same-domain links by default.",
+      "description": "Crawl a website starting from a URL, following links up to a configurable depth and page limit. Supports path pattern filtering and multi-backend failover.",
       "params": [
         {
           "name": "start_url",
@@ -83,16 +104,33 @@
           "defaultValue": true
         },
         {
+          "name": "path_pattern",
+          "type": "string",
+          "description": "URL path regex pattern to match when following links",
+          "required": false
+        },
+        {
           "name": "selector",
           "type": "string",
           "description": "CSS selector to extract specific content from each crawled page",
           "required": false
+        },
+        {
+          "name": "backend",
+          "type": "string",
+          "description": "Preferred crawl backend",
+          "required": false,
+          "enum": [
+            "auto",
+            "firecrawl",
+            "apify"
+          ]
         }
       ]
     },
     {
       "name": "scrape_search",
-      "description": "Search the web using Tavily, Firecrawl, or Google and extract structured results. Requires an API key configured in plugin settings.",
+      "description": "Search the web using Tavily, Firecrawl, Brave, or Exa and extract structured results. Requires an API key configured in plugin settings.",
       "params": [
         {
           "name": "query",
@@ -115,15 +153,23 @@
           "enum": [
             "tavily",
             "firecrawl",
-            "google"
+            "brave",
+            "exa"
           ],
           "defaultValue": "tavily"
+        },
+        {
+          "name": "scrape_results",
+          "type": "boolean",
+          "description": "Also scrape each result page for full content",
+          "required": false,
+          "defaultValue": false
         }
       ]
     },
     {
       "name": "scrape_extract_schema",
-      "description": "Extract structured data from a URL following a JSON schema. Uses pattern matching and DOM heuristics to identify schema fields in the page content.",
+      "description": "Extract structured data from a URL following a JSON schema. Uses pattern matching, DOM heuristics, meta tags, JSON-LD, and itemprop to identify schema fields in the page content.",
       "params": [
         {
           "name": "url",
@@ -143,8 +189,25 @@
           "description": "Whether to extract multiple matching items (e.g., list of products) or a single item",
           "required": false,
           "defaultValue": false
+        },
+        {
+          "name": "backend",
+          "type": "string",
+          "description": "Extraction backend for AI-powered extraction",
+          "required": false,
+          "enum": [
+            "auto",
+            "firecrawl",
+            "jina",
+            "apify"
+          ]
         }
       ]
+    },
+    {
+      "name": "scrape_status",
+      "description": "Check the health, rate-limit status, and remaining quota of all configured scraping backends.",
+      "params": []
     },
     {
       "name": "scrape_monitor",
@@ -203,19 +266,90 @@
   "ui": {
     "settings": [
       {
-        "section": "API Keys",
+        "section": "Firecrawl",
         "fields": [
           {
             "key": "firecrawlApiKey",
-            "label": "Firecrawl API Key",
+            "label": "API Key",
             "type": "secret",
-            "description": "API key for Firecrawl web scraping service (https://firecrawl.dev)"
-          },
+            "description": "API key for Firecrawl (https://firecrawl.dev)"
+          }
+        ]
+      },
+      {
+        "section": "Tavily",
+        "fields": [
           {
             "key": "tavilyApiKey",
-            "label": "Tavily API Key",
+            "label": "API Key",
             "type": "secret",
             "description": "API key for Tavily search API (https://tavily.com)"
+          }
+        ]
+      },
+      {
+        "section": "Apify",
+        "fields": [
+          {
+            "key": "apifyApiToken",
+            "label": "API Token",
+            "type": "secret",
+            "description": "API token for Apify (https://apify.com)"
+          }
+        ]
+      },
+      {
+        "section": "Bright Data",
+        "fields": [
+          {
+            "key": "brightdataApiKey",
+            "label": "API Key",
+            "type": "secret",
+            "description": "API key for Bright Data (https://brightdata.com)"
+          }
+        ]
+      },
+      {
+        "section": "Oxylabs",
+        "fields": [
+          {
+            "key": "oxylabsApiKey",
+            "label": "API Key",
+            "type": "secret",
+            "description": "API key for Oxylabs (https://oxylabs.io)"
+          }
+        ]
+      },
+      {
+        "section": "Jina AI",
+        "fields": [
+          {
+            "key": "jinaApiKey",
+            "label": "API Key",
+            "type": "secret",
+            "description": "API key for Jina AI Reader (https://jina.ai)"
+          }
+        ]
+      },
+      {
+        "section": "Brave Search",
+        "fields": [
+          {
+            "key": "braveApiKey",
+            "label": "API Key",
+            "type": "secret",
+            "description": "API key for Brave Search API (https://brave.com/search/api/)"
+          }
+        ]
+      },
+      {
+        "section": "Exa",
+        "fields": [
+          {
+            "key": "exaApiKey",
+            "label": "API Key",
+            "type": "secret",
+            "description": "API key for Exa search API (https://exa.ai)"
           }
         ]
       },
@@ -234,7 +368,7 @@
             "label": "User Agent",
             "type": "text",
             "description": "User-Agent header sent with all HTTP requests",
-            "defaultValue": "CortexPrism-WebScraper/1.0.0"
+            "defaultValue": "CortexPrism-WebScraper/1.1.0"
           },
           {
             "key": "requestDelayMs",
@@ -249,7 +383,8 @@
   },
   "aiDisclosure": {
     "tools": [
-      "Claude Code (Anthropic) \u2014 scaffold and implementation"
+      "Claude Code (Anthropic) — original scaffold and implementation",
+      "Kilo (DeepSeek) — merged web-scraping orchestrator features (multi-backend, scrape_status, screenshot)"
     ],
     "humanReview": true
   }
