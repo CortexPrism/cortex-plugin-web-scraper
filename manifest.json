@@ -1,6 +1,6 @@
 {
   "name": "cortex-plugin-web-scraper",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Firecrawl/Tavily/Apify-based structured web scraping. Agent can crawl sites, extract structured data (JSON), monitor pages for changes, and build datasets.",
   "kind": "esm",
   "entryPoint": "mod.ts",
@@ -34,7 +34,7 @@
             "markdown",
             "html"
           ],
-          "default": "text"
+          "defaultValue": "text"
         },
         {
           "name": "selector",
@@ -47,7 +47,7 @@
           "type": "boolean",
           "description": "Whether to include page metadata (title, description, og tags, links) in the response",
           "required": false,
-          "default": true
+          "defaultValue": true
         }
       ]
     },
@@ -66,21 +66,21 @@
           "type": "number",
           "description": "Maximum number of pages to crawl (default: 10)",
           "required": false,
-          "default": 10
+          "defaultValue": 10
         },
         {
           "name": "max_depth",
           "type": "number",
           "description": "Maximum crawl depth from the start URL (default: 2)",
           "required": false,
-          "default": 2
+          "defaultValue": 2
         },
         {
           "name": "same_domain",
           "type": "boolean",
           "description": "Only follow links on the same domain as the start URL (default: true)",
           "required": false,
-          "default": true
+          "defaultValue": true
         },
         {
           "name": "selector",
@@ -105,7 +105,7 @@
           "type": "number",
           "description": "Maximum number of results to return (default: 10)",
           "required": false,
-          "default": 10
+          "defaultValue": 10
         },
         {
           "name": "engine",
@@ -117,7 +117,7 @@
             "firecrawl",
             "google"
           ],
-          "default": "tavily"
+          "defaultValue": "tavily"
         }
       ]
     },
@@ -142,7 +142,7 @@
           "type": "boolean",
           "description": "Whether to extract multiple matching items (e.g., list of products) or a single item",
           "required": false,
-          "default": false
+          "defaultValue": false
         }
       ]
     },
@@ -161,7 +161,7 @@
           "type": "number",
           "description": "How often to check for changes in hours (default: 24)",
           "required": false,
-          "default": 24
+          "defaultValue": 24
         },
         {
           "name": "selector",
@@ -185,7 +185,7 @@
             "csv",
             "markdown"
           ],
-          "default": "json"
+          "defaultValue": "json"
         },
         {
           "name": "data",
@@ -198,7 +198,7 @@
   ],
   "dependencies": {},
   "peerDependencies": {
-    "cortex": ">=1.0.0"
+    "cortex": ">=0.51.0"
   },
   "ui": {
     "settings": [
@@ -227,21 +227,21 @@
             "label": "Default Max Pages",
             "type": "number",
             "description": "Default maximum pages when crawling (global override)",
-            "default": 10
+            "defaultValue": 10
           },
           {
             "key": "userAgent",
             "label": "User Agent",
             "type": "text",
             "description": "User-Agent header sent with all HTTP requests",
-            "default": "CortexPrism-WebScraper/1.0.0"
+            "defaultValue": "CortexPrism-WebScraper/1.0.0"
           },
           {
             "key": "requestDelayMs",
             "label": "Request Delay (ms)",
             "type": "number",
             "description": "Delay between requests to avoid rate limiting",
-            "default": 1000
+            "defaultValue": 1000
           }
         ]
       }

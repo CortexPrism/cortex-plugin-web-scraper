@@ -9,7 +9,7 @@
  * #31 in the official plugin registry.
  */
 
-import type { PluginContext, Tool, ToolCallResult, ToolContext } from './types.ts';
+import type { PluginContext, Tool, ToolCallResult } from 'cortex/plugins';
 
 // ---------------------------------------------------------------------------
 // Module-level config (loaded in onLoad)
@@ -377,7 +377,7 @@ const scrapeUrlTool: Tool = {
     capabilities: ['network:fetch'],
   },
 
-  execute: async (args: Record<string, unknown>, _ctx: ToolContext): Promise<ToolCallResult> => {
+  execute: async (args: Record<string, unknown>, _ctx: PluginContext): Promise<ToolCallResult> => {
     const start = Date.now();
     const toolName = 'scrape_url';
     try {
@@ -490,7 +490,7 @@ const scrapeCrawlTool: Tool = {
     capabilities: ['network:fetch'],
   },
 
-  execute: async (args: Record<string, unknown>, _ctx: ToolContext): Promise<ToolCallResult> => {
+  execute: async (args: Record<string, unknown>, _ctx: PluginContext): Promise<ToolCallResult> => {
     const start = Date.now();
     const toolName = 'scrape_crawl';
     try {
@@ -572,7 +572,7 @@ const scrapeSearchTool: Tool = {
     capabilities: ['network:fetch'],
   },
 
-  execute: async (args: Record<string, unknown>, _ctx: ToolContext): Promise<ToolCallResult> => {
+  execute: async (args: Record<string, unknown>, _ctx: PluginContext): Promise<ToolCallResult> => {
     const start = Date.now();
     const toolName = 'scrape_search';
     try {
@@ -706,7 +706,7 @@ const scrapeExtractSchemaTool: Tool = {
     capabilities: ['network:fetch'],
   },
 
-  execute: async (args: Record<string, unknown>, _ctx: ToolContext): Promise<ToolCallResult> => {
+  execute: async (args: Record<string, unknown>, _ctx: PluginContext): Promise<ToolCallResult> => {
     const start = Date.now();
     const toolName = 'scrape_extract_schema';
     try {
@@ -887,7 +887,7 @@ const scrapeMonitorTool: Tool = {
     capabilities: ['network:fetch'],
   },
 
-  execute: async (args: Record<string, unknown>, _ctx: ToolContext): Promise<ToolCallResult> => {
+  execute: async (args: Record<string, unknown>, _ctx: PluginContext): Promise<ToolCallResult> => {
     const start = Date.now();
     const toolName = 'scrape_monitor';
     try {
@@ -982,7 +982,7 @@ const scrapeExportTool: Tool = {
     capabilities: [],
   },
 
-  execute: async (args: Record<string, unknown>, _ctx: ToolContext): Promise<ToolCallResult> => {
+  execute: async (args: Record<string, unknown>, _ctx: PluginContext): Promise<ToolCallResult> => {
     const start = Date.now();
     const toolName = 'scrape_export';
     try {
